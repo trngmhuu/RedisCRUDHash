@@ -15,18 +15,11 @@ public class RedisConfig {
         return new LettuceConnectionFactory();
     }
 
-
-
     @Bean
     RedisTemplate<String, Employee> redisTemplate() {
         RedisTemplate<String, Employee> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(jedisConnectionFactory());
         return redisTemplate;
-    }
-
-    @Bean
-    public HashOperations<String, Integer, Employee> hashOperations(RedisTemplate<String, Employee> redisTemplate) {
-        return redisTemplate.opsForHash();
     }
 
 }

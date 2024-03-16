@@ -11,11 +11,13 @@ import java.util.List;
 @Repository
 public class EmployeeRepository {
 
-    private HashOperations<String, Integer, Employee> hashOperations;
+    private HashOperations hashOperations;
+    private RedisTemplate redisTemplate;
 
     @Autowired
-    public EmployeeRepository(HashOperations<String, Integer, Employee> hashOperations, RedisTemplate<String, Employee> redisTemplate) {
-        this.hashOperations = hashOperations;
+    public EmployeeRepository(RedisTemplate redisTemplate) {
+        this.hashOperations = redisTemplate.opsForHash();
+        this.redisTemplate = redisTemplate;
     }
 
     public void saveEmployee(Employee employee) {
