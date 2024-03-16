@@ -13,6 +13,8 @@ public class EmployeeRepository {
 
     private HashOperations hashOperations;
     private RedisTemplate redisTemplate;
+    @Autowired
+    private EmployeeMongoRepository employeeMongoRepository;
 
     @Autowired
     public EmployeeRepository(RedisTemplate redisTemplate) {
@@ -22,6 +24,7 @@ public class EmployeeRepository {
 
     public void saveEmployee(Employee employee) {
         hashOperations.put("EMPLOYEE", employee.getId(), employee);
+        employeeMongoRepository.save(employee);
     }
 
     public List<Employee> findAll() {
@@ -34,10 +37,12 @@ public class EmployeeRepository {
 
     public void update(Employee employee) {
         saveEmployee(employee);
+        employeeMongoRepository.save(employee);
     }
 
     public void delete(Integer id) {
         hashOperations.delete("EMPLOYEE", id);
+        employeeMongoRepository.deleteById(id);
     }
 
 }
